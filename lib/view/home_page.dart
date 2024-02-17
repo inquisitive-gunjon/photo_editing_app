@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:photo_editing_app/view/collage_page_one.dart';
 import 'package:photo_editing_app/view_model/photo_editor_view_model.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -44,25 +45,39 @@ class _HomePageState extends State<HomePage> {
           ),
           body: photoEditorViewModel.images.isEmpty
               ? Center(
-            child: Text('No images selected'),
-          )
-              : PhotoViewGallery.builder(
-            itemCount: photoEditorViewModel.images.length,
-            builder: (context, index) {
-              return PhotoViewGalleryPageOptions(
-                imageProvider: FileImage(photoEditorViewModel.images[index]),
-                minScale: PhotoViewComputedScale.contained,
-                maxScale: PhotoViewComputedScale.covered * 2,
-              );
-            },
-            onPageChanged: (index) {
-              photoEditorViewModel.setCurrentIndex(index);
-            },
-            scrollPhysics: BouncingScrollPhysics(),
-            backgroundDecoration: BoxDecoration(
-              color: Colors.black,
-            ),
-          ),
+
+                child: Text('No images selected'),
+              )
+                  : Stack(
+                    children: [
+                      PhotoViewGallery.builder(
+                        itemCount: photoEditorViewModel.images.length,
+                        builder: (context, index) {
+                              return PhotoViewGalleryPageOptions(
+                                imageProvider: FileImage(photoEditorViewModel.images[index]),
+                                minScale: PhotoViewComputedScale.contained,
+                                maxScale: PhotoViewComputedScale.covered * 2,
+                              );
+                        },
+                        onPageChanged: (index) {
+                              photoEditorViewModel.setCurrentIndex(index);
+                        },
+                        scrollPhysics: BouncingScrollPhysics(),
+                        backgroundDecoration: BoxDecoration(
+                              color: Colors.black,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: ElevatedButton(
+                          onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CollagePageOne()));
+                          },
+                          child: Text("Next->"),
+                        ),
+                      )
+                    ],
+                  ),
         );
       }
     );

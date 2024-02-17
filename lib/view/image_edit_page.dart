@@ -29,7 +29,7 @@ class _ImageEditPageState extends State<ImageEditPage> {
   Future<void> _loadImage() async {
     List<int> bytes = await widget.imageFile.readAsBytes();
     _originalImage = img.decodeImage(Uint8List.fromList(bytes))!;
-    _editedImage = img.copyRotate(_originalImage,angle: _rotationAngle);
+    _editedImage = img.copyRotate(_originalImage, angle:_rotationAngle);
     setState(() {});
   }
 
@@ -41,7 +41,9 @@ class _ImageEditPageState extends State<ImageEditPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.check),
-            onPressed: () => _saveImage(),
+            onPressed: () {
+              // _saveImage();
+            },
           ),
         ],
       ),
@@ -56,17 +58,17 @@ class _ImageEditPageState extends State<ImageEditPage> {
               child: Image.memory(Uint8List.fromList(img.encodeJpg(_editedImage!))),
             ),
           ),
-          Slider(
-            value: _rotationAngle,
-            min: 0,
-            max: 360,
-            onChanged: (value) {
-              setState(() {
-                _rotationAngle = value;
-                _editedImage = img.copyRotate(_originalImage,angle: value);
-              });
-            },
-          ),
+          // Slider(
+          //   value: _rotationAngle,
+          //   min: 0,
+          //   max: 360,
+          //   onChanged: (value) {
+          //     setState(() {
+          //       _rotationAngle = value;
+          //       _editedImage = img.copyRotate(_originalImage,angle: value);
+          //     });
+          //   },
+          // ),
         ],
       ),
     );
