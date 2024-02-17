@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:photo_eiditing_app/view/home_page.dart';
+import 'package:flutter/services.dart';
+import 'package:photo_editing_app/view/home_page.dart';
+import 'package:photo_editing_app/view_model/photo_editor_view_model.dart';
+import 'package:provider/provider.dart';
+import 'di_container.dart' as di;
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
+  // GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  await di.init();
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => di.sl<PhotoEditorViewModel>()),
+        ],
+          child: MyApp()
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {
